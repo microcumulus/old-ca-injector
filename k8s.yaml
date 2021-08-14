@@ -6,21 +6,21 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cert-injector
+  name: ca-injector
   namespace: admission
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cert-injector
+      app: ca-injector
   template:
     metadata:
       labels:
-        app: cert-injector
+        app: ca-injector
     spec:
       containers:
-      - name: cert-injector
-        image: andrewstuart/cert-injector
+      - name: ca-injector
+        image: andrewstuart/ca-injector
         imagePullPolicy: Always
         resources:
           requests:
@@ -42,14 +42,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: cert-injector
+  name: ca-injector
   namespace: admission
 spec:
   ports:
   - port: 443
     targetPort: 8443
   selector:
-    app: cert-injector
+    app: ca-injector
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -59,8 +59,8 @@ metadata:
 spec:
   secretName: injector.admission.svc.cluster.local.tls
   dnsNames:
-  - cert-injector.admission.svc.cluster.local
-  - cert-injector.admission.svc
+  - ca-injector.admission.svc.cluster.local
+  - ca-injector.admission.svc
   issuerRef:
     name: vault # Replace this issuer with your own issuer
     kind: ClusterIssuer

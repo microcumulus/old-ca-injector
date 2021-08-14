@@ -1,9 +1,9 @@
 apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingWebhookConfiguration
 metadata:
-  name: cert-injector.microcumul.us
+  name: ca-injector.microcumul.us
 webhooks:
-- name: cert-injector.microcumul.us
+- name: ca-injector.microcumul.us
   admissionReviewVersions:
     - v1
   sideEffects: NoneOnDryRun
@@ -21,6 +21,6 @@ webhooks:
     caBundle: ""
     service:
       namespace: admission
-      name: cert-injector
+      name: ca-injector
       path: /pods
 --- 
